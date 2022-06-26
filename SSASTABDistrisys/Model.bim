@@ -1,0 +1,958 @@
+{
+  "name": "SemanticModel",
+  "compatibilityLevel": 1500,
+  "model": {
+    "culture": "fr-FR",
+    "dataSources": [
+      {
+        "type": "structured",
+        "name": "SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW",
+        "connectionDetails": {
+          "protocol": "tds",
+          "address": {
+            "server": "MONSERVEUR\\MONINSTANCE",
+            "database": "DistrisysDW"
+          },
+          "authentication": null,
+          "query": null
+        },
+        "options": {},
+        "credential": {
+          "AuthenticationKind": "Windows",
+          "kind": "SQL",
+          "path": "monserveur\\moninstance;DistrisysDW",
+          "Username": "Administrateur",
+          "EncryptConnection": false
+        }
+      }
+    ],
+    "tables": [
+      {
+        "name": "Client",
+        "columns": [
+          {
+            "name": "Client_PK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Client_PK",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GeographieClient_FK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "GeographieClient_FK",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Code client",
+            "dataType": "string",
+            "sourceColumn": "ClientCode"
+          },
+          {
+            "name": "Client",
+            "dataType": "string",
+            "sourceColumn": "Client"
+          },
+          {
+            "name": "Type client",
+            "dataType": "string",
+            "sourceColumn": "TypeClient"
+          },
+          {
+            "name": "Segmentation client",
+            "dataType": "string",
+            "sourceColumn": "SegmentationClient"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW\",",
+                "    dbo_DimClient = Source{[Schema=\"dbo\",Item=\"DimClient\"]}[Data]",
+                "in",
+                "    dbo_DimClient"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Geographie",
+        "columns": [
+          {
+            "name": "Geographie_PK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Geographie_PK",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "PaysCode",
+            "dataType": "string",
+            "isHidden": true,
+            "sourceColumn": "PaysCode"
+          },
+          {
+            "name": "Pays",
+            "dataType": "string",
+            "sourceColumn": "Pays"
+          },
+          {
+            "name": "DepartementCode",
+            "dataType": "string",
+            "isHidden": true,
+            "sourceColumn": "DepartementCode"
+          },
+          {
+            "name": "Département",
+            "dataType": "string",
+            "sourceColumn": "Departement"
+          },
+          {
+            "name": "Code postal",
+            "dataType": "string",
+            "sourceColumn": "CodePostal"
+          },
+          {
+            "name": "Ville",
+            "dataType": "string",
+            "sourceColumn": "Ville"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW\",",
+                "    dbo_DimGeographie = Source{[Schema=\"dbo\",Item=\"DimGeographie\"]}[Data]",
+                "in",
+                "    dbo_DimGeographie"
+              ]
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Localisation",
+            "levels": [
+              {
+                "name": "Pays",
+                "ordinal": 0,
+                "column": "Pays"
+              },
+              {
+                "name": "Département",
+                "ordinal": 1,
+                "column": "Département"
+              },
+              {
+                "name": "Ville",
+                "ordinal": 2,
+                "column": "Ville"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Produit",
+        "columns": [
+          {
+            "name": "Produit_PK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Produit_PK",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "Code produit",
+            "dataType": "string",
+            "sourceColumn": "ProduitCode"
+          },
+          {
+            "name": "Produit",
+            "dataType": "string",
+            "sourceColumn": "Produit"
+          },
+          {
+            "name": "Sous famille",
+            "dataType": "string",
+            "sourceColumn": "SousFamille"
+          },
+          {
+            "name": "Famille",
+            "dataType": "string",
+            "sourceColumn": "Famille"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW\",",
+                "    dbo_DimProduit = Source{[Schema=\"dbo\",Item=\"DimProduit\"]}[Data],",
+                "    #\"Autres colonnes supprimées\" = Table.SelectColumns(dbo_DimProduit,{\"Produit_PK\", \"ProduitCode\", \"Produit\", \"SousFamille\", \"Famille\"})",
+                "in",
+                "    #\"Autres colonnes supprimées\""
+              ]
+            }
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Produits",
+            "levels": [
+              {
+                "name": "Famille",
+                "ordinal": 0,
+                "column": "Famille"
+              },
+              {
+                "name": "Sous famille",
+                "ordinal": 1,
+                "column": "Sous famille"
+              },
+              {
+                "name": "Produit",
+                "ordinal": 2,
+                "column": "Produit"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Site",
+        "columns": [
+          {
+            "name": "Site_PK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Site_PK",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "GeographieSite_FK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "GeographieSite_FK",
+            "summarizeBy": "none"
+          },
+          {
+            "name": "SiteCode",
+            "dataType": "string",
+            "isHidden": true,
+            "sourceColumn": "SiteCode"
+          },
+          {
+            "name": "Site",
+            "dataType": "string",
+            "sourceColumn": "Site"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW\",",
+                "    dbo_DimSite = Source{[Schema=\"dbo\",Item=\"DimSite\"]}[Data]",
+                "in",
+                "    dbo_DimSite"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Temps",
+        "dataCategory": "Time",
+        "columns": [
+          {
+            "name": "Temps_PK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Temps_PK"
+          },
+          {
+            "name": "Date",
+            "dataType": "dateTime",
+            "isKey": true,
+            "sourceColumn": "Date",
+            "formatString": "Short Date",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"DateTimeShortDatePattern\" />"
+              }
+            ]
+          },
+          {
+            "name": "AnneeNom",
+            "dataType": "string",
+            "sourceColumn": "AnneeNom"
+          },
+          {
+            "name": "Semestre année",
+            "dataType": "string",
+            "sourceColumn": "SemestreNom"
+          },
+          {
+            "name": "Trimestre année",
+            "dataType": "string",
+            "sourceColumn": "TrimestreNom"
+          },
+          {
+            "name": "Mois année",
+            "dataType": "string",
+            "sourceColumn": "MoisNom",
+            "sortByColumn": "MoisCode"
+          },
+          {
+            "type": "calculated",
+            "name": "Année",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": "Left([Temps_PK], 4)"
+          },
+          {
+            "name": "MoisCode",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "MoisCode"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW\",",
+                "    dbo_DimTemps = Source{[Schema=\"dbo\",Item=\"DimTemps\"]}[Data],",
+                "    #\"Autres colonnes supprimées\" = Table.SelectColumns(dbo_DimTemps,{\"Temps_PK\", \"Date\", \"AnneeNom\", \"SemestreNom\", \"TrimestreNom\", \"MoisNom\",\"MoisCode\"}),",
+                "    #\"Lignes triées\" = Table.Sort(#\"Autres colonnes supprimées\",{{\"Temps_PK\", Order.Ascending}}),",
+                "    #\"Premières lignes supprimées\" = Table.Skip(#\"Lignes triées\",1827)",
+                "in",
+                "    #\"Premières lignes supprimées\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "Facture",
+        "columns": [
+          {
+            "name": "DateFacturation_FK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "DateFacturation_FK"
+          },
+          {
+            "name": "Site_FK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Site_FK"
+          },
+          {
+            "name": "Produit_FK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Produit_FK"
+          },
+          {
+            "name": "Client_FK",
+            "dataType": "int64",
+            "isHidden": true,
+            "sourceColumn": "Client_FK"
+          },
+          {
+            "name": "PrixCatalogue",
+            "dataType": "double",
+            "sourceColumn": "PrixCatalogue"
+          },
+          {
+            "name": "Remise",
+            "dataType": "double",
+            "sourceColumn": "Remise"
+          },
+          {
+            "name": "CA",
+            "dataType": "double",
+            "sourceColumn": "CA"
+          },
+          {
+            "name": "Marge",
+            "dataType": "double",
+            "sourceColumn": "Marge"
+          },
+          {
+            "name": "CoutDirectMatiere",
+            "dataType": "double",
+            "sourceColumn": "CoutDirectMatiere",
+            "displayFolder": "Coûts"
+          },
+          {
+            "name": "CoutDirectMainOeuvre",
+            "dataType": "double",
+            "sourceColumn": "CoutDirectMainOeuvre",
+            "displayFolder": "Coûts"
+          },
+          {
+            "name": "CoutIndirect",
+            "dataType": "double",
+            "sourceColumn": "CoutIndirect",
+            "displayFolder": "Coûts"
+          },
+          {
+            "name": "Quantite",
+            "dataType": "double",
+            "sourceColumn": "Quantite"
+          },
+          {
+            "name": "NumFacture",
+            "dataType": "string",
+            "sourceColumn": "NumFacture"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW\",",
+                "    dbo_FactFacture = Source{[Schema=\"dbo\",Item=\"FactFacture\"]}[Data],",
+                "    #\"Colonnes supprimées\" = Table.RemoveColumns(dbo_FactFacture,{\"AuditFluxAjout_FK\", \"AuditFlux\", \"DimClient\", \"DimProduit\", \"DimSite\", \"DimTemps\"}),",
+                "    #\"Lignes filtrées\" = Table.SelectRows(#\"Colonnes supprimées\", each [DateFacturation_FK] >= 20220101)",
+                "in",
+                "    #\"Lignes filtrées\""
+              ]
+            }
+          },
+          {
+            "name": "Factures2021",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"SQL/MONSERVEUR\\MONINSTANCE;DistrisysDW\",",
+                "    dbo_FactFacture = Source{[Schema=\"dbo\",Item=\"FactFacture\"]}[Data],",
+                "    #\"Colonnes supprimées\" = Table.RemoveColumns(dbo_FactFacture,{\"AuditFluxAjout_FK\", \"AuditFlux\", \"DimClient\", \"DimProduit\", \"DimSite\", \"DimTemps\"}),",
+                "    #\"Lignes filtrées\" = Table.SelectRows(#\"Colonnes supprimées\", each [DateFacturation_FK] >= 20210101 and [DateFacturation_FK] <= 20211231)",
+                "in",
+                "    #\"Lignes filtrées\""
+              ]
+            }
+          }
+        ],
+        "measures": [
+          {
+            "name": "% marge",
+            "expression": "SUM(Facture[Marge])/SUM(Facture[CA])",
+            "formatString": "0.00 %;-0.00 %;0.00 %",
+            "kpi": {
+              "targetExpression": "1",
+              "targetFormatString": "0.00 %;-0.00 %;0.00 %",
+              "statusGraphic": "Traffic Light - Single",
+              "statusExpression": [
+                "var x='Facture'[% marge] return",
+                "            if(ISBLANK(x),BLANK(),",
+                "                    If(x<0.27,-1,",
+                "\t                If(x<0.3,0,1)",
+                "                )",
+                "            )",
+                "            "
+              ],
+              "annotations": [
+                {
+                  "name": "GoalType",
+                  "value": "StaticValue"
+                },
+                {
+                  "name": "KpiStatusType",
+                  "value": "Linear"
+                },
+                {
+                  "name": "KpiThresholdType",
+                  "value": "Absolute"
+                },
+                {
+                  "name": "KpiThresholdOrdering",
+                  "value": "Ascending"
+                },
+                {
+                  "name": "KpiThresholdCount",
+                  "value": "2"
+                },
+                {
+                  "name": "KpiThreshold_0",
+                  "value": "0.27"
+                },
+                {
+                  "name": "KpiThreshold_1",
+                  "value": "0.3"
+                }
+              ]
+            }
+          },
+          {
+            "name": "% Remise",
+            "expression": "SUM(Facture[Remise])/SUM(Facture[PrixCatalogue])",
+            "formatString": "0.00 %;-0.00 %;0.00 %"
+          },
+          {
+            "name": "Cout total",
+            "expression": "SUM(Facture[CoutDirectMatiere])+SUM(Facture[CoutDirectMainOeuvre])+SUM(Facture[CoutIndirect])",
+            "formatString": "#,0.00 \"€\";-#,0.00 \"€\";#,0.00 \"€\"",
+            "displayFolder": "Coûts",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1036\" DisplayName=\"€ Français (France)\" Symbol=\"€\" PositivePattern=\"3\" NegativePattern=\"8\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Prix de vente moyen",
+            "expression": " SUM(Facture[CA])/SUM(Facture[Quantite])",
+            "formatString": "#,0.00 \"€\";-#,0.00 \"€\";#,0.00 \"€\"",
+            "annotations": [
+              {
+                "name": "Format",
+                "value": "<Format Format=\"Currency\" Accuracy=\"2\"><Currency LCID=\"1036\" DisplayName=\"€ Français (France)\" Symbol=\"€\" PositivePattern=\"3\" NegativePattern=\"8\" /></Format>"
+              }
+            ]
+          },
+          {
+            "name": "Nb lignes facture",
+            "expression": "COUNTA(Facture[NumFacture])",
+            "formatString": "#,0"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "name": "0739c9d2-559a-40f4-ba27-267aab27ca5d",
+        "fromTable": "Client",
+        "fromColumn": "GeographieClient_FK",
+        "toTable": "Geographie",
+        "toColumn": "Geographie_PK"
+      },
+      {
+        "name": "64f013bb-d2f3-423c-833a-95bb99d3d571",
+        "fromTable": "Facture",
+        "fromColumn": "Client_FK",
+        "toTable": "Client",
+        "toColumn": "Client_PK"
+      },
+      {
+        "name": "8c658b37-52df-4ea9-8a36-6ea86db2c9ae",
+        "fromTable": "Facture",
+        "fromColumn": "Produit_FK",
+        "toTable": "Produit",
+        "toColumn": "Produit_PK"
+      },
+      {
+        "name": "2cbde31d-ba63-480b-ae04-2d6fd9c679a4",
+        "fromTable": "Facture",
+        "fromColumn": "DateFacturation_FK",
+        "toTable": "Temps",
+        "toColumn": "Temps_PK"
+      },
+      {
+        "name": "a2e54391-fe4b-47c3-91ca-06d9a6f34b81",
+        "fromTable": "Facture",
+        "fromColumn": "Site_FK",
+        "toTable": "Site",
+        "toColumn": "Site_PK"
+      }
+    ],
+    "cultures": [
+      {
+        "name": "en-US",
+        "translations": {
+          "model": {
+            "name": "Model",
+            "tables": [
+              {
+                "name": "Client",
+                "translatedCaption": "Customer",
+                "columns": [
+                  {
+                    "name": "Code client",
+                    "translatedCaption": "Customer key"
+                  },
+                  {
+                    "name": "Client",
+                    "translatedCaption": "Customer"
+                  },
+                  {
+                    "name": "Type client",
+                    "translatedCaption": "Customer type"
+                  },
+                  {
+                    "name": "Segmentation client",
+                    "translatedCaption": "Customer segmentation"
+                  }
+                ]
+              },
+              {
+                "name": "Geographie",
+                "columns": [
+                  {
+                    "name": "Pays",
+                    "translatedCaption": "Country"
+                  },
+                  {
+                    "name": "Département",
+                    "translatedCaption": "Department"
+                  },
+                  {
+                    "name": "Code postal",
+                    "translatedCaption": "Postal code"
+                  },
+                  {
+                    "name": "Ville",
+                    "translatedCaption": "City"
+                  }
+                ],
+                "hierarchies": [
+                  {
+                    "name": "Localisation",
+                    "translatedCaption": "Location",
+                    "levels": [
+                      {
+                        "name": "Pays",
+                        "translatedCaption": "Country"
+                      },
+                      {
+                        "name": "Département",
+                        "translatedCaption": "Department"
+                      },
+                      {
+                        "name": "Ville",
+                        "translatedCaption": "City"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Produit",
+                "translatedCaption": "Product",
+                "columns": [
+                  {
+                    "name": "Code produit",
+                    "translatedCaption": "Product key"
+                  },
+                  {
+                    "name": "Produit",
+                    "translatedCaption": "Product"
+                  },
+                  {
+                    "name": "Sous famille",
+                    "translatedCaption": "SubFamily"
+                  },
+                  {
+                    "name": "Famille",
+                    "translatedCaption": "Family"
+                  }
+                ],
+                "hierarchies": [
+                  {
+                    "name": "Produits",
+                    "translatedCaption": "Products",
+                    "levels": [
+                      {
+                        "name": "Famille",
+                        "translatedCaption": "Family"
+                      },
+                      {
+                        "name": "Sous famille",
+                        "translatedCaption": "SubFamily"
+                      },
+                      {
+                        "name": "Produit",
+                        "translatedCaption": "Product"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "Temps",
+                "translatedCaption": "Time",
+                "columns": [
+                  {
+                    "name": "AnneeNom",
+                    "translatedCaption": "YearName"
+                  },
+                  {
+                    "name": "Semestre année",
+                    "translatedCaption": "Semester year"
+                  },
+                  {
+                    "name": "Trimestre année",
+                    "translatedCaption": "Quarter year"
+                  },
+                  {
+                    "name": "Mois année",
+                    "translatedCaption": "Month year"
+                  },
+                  {
+                    "name": "Année",
+                    "translatedCaption": "Year"
+                  }
+                ]
+              },
+              {
+                "name": "Facture",
+                "translatedCaption": "Invoice",
+                "columns": [
+                  {
+                    "name": "PrixCatalogue",
+                    "translatedCaption": "Price catalogue"
+                  },
+                  {
+                    "name": "Remise",
+                    "translatedCaption": "Discount"
+                  },
+                  {
+                    "name": "CA",
+                    "translatedCaption": "Turnover"
+                  },
+                  {
+                    "name": "Marge",
+                    "translatedCaption": "Margin"
+                  },
+                  {
+                    "name": "CoutDirectMatiere",
+                    "translatedCaption": "Direct material cost",
+                    "translatedDisplayFolder": "Cost"
+                  },
+                  {
+                    "name": "CoutDirectMainOeuvre",
+                    "translatedCaption": "Direct labor cost",
+                    "translatedDisplayFolder": "Cost"
+                  },
+                  {
+                    "name": "CoutIndirect",
+                    "translatedCaption": "Indirect cost",
+                    "translatedDisplayFolder": "Cost"
+                  },
+                  {
+                    "name": "Quantite",
+                    "translatedCaption": "Quantity"
+                  },
+                  {
+                    "name": "NumFacture",
+                    "translatedCaption": "Invoice number"
+                  }
+                ],
+                "measures": [
+                  {
+                    "name": "% marge",
+                    "translatedCaption": "% margin"
+                  },
+                  {
+                    "name": "% Remise",
+                    "translatedCaption": "% discount"
+                  },
+                  {
+                    "name": "Cout total",
+                    "translatedCaption": "Total cost"
+                  },
+                  {
+                    "name": "Prix de vente moyen",
+                    "translatedCaption": "Average sale price"
+                  },
+                  {
+                    "name": "Nb lignes facture",
+                    "translatedCaption": "Invoice line count"
+                  }
+                ]
+              }
+            ],
+            "perspectives": [
+              {
+                "name": "Suivi ventes",
+                "translatedCaption": "Sales tracking"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "perspectives": [
+      {
+        "name": "Suivi ventes",
+        "tables": [
+          {
+            "name": "Facture",
+            "columns": [
+              {
+                "name": "CA"
+              },
+              {
+                "name": "Marge"
+              },
+              {
+                "name": "NumFacture"
+              },
+              {
+                "name": "PrixCatalogue"
+              },
+              {
+                "name": "Quantite"
+              },
+              {
+                "name": "Remise"
+              }
+            ],
+            "measures": [
+              {
+                "name": "% Remise"
+              },
+              {
+                "name": "Cout total"
+              },
+              {
+                "name": "Prix de vente moyen"
+              }
+            ]
+          },
+          {
+            "name": "Site",
+            "columns": [
+              {
+                "name": "Site"
+              }
+            ]
+          },
+          {
+            "name": "Temps",
+            "columns": [
+              {
+                "name": "Année"
+              },
+              {
+                "name": "AnneeNom"
+              },
+              {
+                "name": "Date"
+              },
+              {
+                "name": "Mois année"
+              },
+              {
+                "name": "Semestre année"
+              },
+              {
+                "name": "Trimestre année"
+              }
+            ]
+          },
+          {
+            "name": "Produit",
+            "hierarchies": [
+              {
+                "name": "Produits"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "roles": [
+      {
+        "name": "CDG",
+        "description": "Accès au service Contrôle de gestion",
+        "modelPermission": "read"
+      },
+      {
+        "name": "AgenceOuest",
+        "description": "Accès aux commerciaux de l'agence Ouest",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "Site",
+            "filterExpression": "'Site'[Site]=\"Agence Ouest\""
+          },
+          {
+            "name": "Facture",
+            "columnPermissions": [
+              {
+                "name": "DateFacturation_FK",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "Site_FK",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "Produit_FK",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "Client_FK",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "Marge",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "CoutDirectMatiere",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "CoutDirectMainOeuvre",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "CoutIndirect",
+                "metadataPermission": "none"
+              },
+              {
+                "name": "NumFacture",
+                "metadataPermission": "none"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "annotations": [
+      {
+        "name": "ClientCompatibilityLevel",
+        "value": "600"
+      }
+    ]
+  },
+  "id": "SemanticModel"
+}

@@ -1,0 +1,596 @@
+{
+  "referenceCulture": {
+  "name": "db",
+  "model": {
+    "tables": [
+      {
+        "name": "Client",
+        "columns": [
+          {
+            "name": "Client_PK"
+          },
+          {
+            "name": "GeographieClient_FK"
+          },
+          {
+            "name": "Code client"
+          },
+          {
+            "name": "Client"
+          },
+          {
+            "name": "Type client"
+          },
+          {
+            "name": "Segmentation client"
+          }
+        ]
+      },
+      {
+        "name": "Geographie",
+        "columns": [
+          {
+            "name": "Geographie_PK"
+          },
+          {
+            "name": "PaysCode"
+          },
+          {
+            "name": "Pays"
+          },
+          {
+            "name": "DepartementCode"
+          },
+          {
+            "name": "Département"
+          },
+          {
+            "name": "Code postal"
+          },
+          {
+            "name": "Ville"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Localisation",
+            "levels": [
+              {
+                "name": "Pays"
+              },
+              {
+                "name": "Département"
+              },
+              {
+                "name": "Ville"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Produit",
+        "columns": [
+          {
+            "name": "Produit_PK"
+          },
+          {
+            "name": "Code produit"
+          },
+          {
+            "name": "Produit"
+          },
+          {
+            "name": "Sous famille"
+          },
+          {
+            "name": "Famille"
+          }
+        ],
+        "hierarchies": [
+          {
+            "name": "Produits",
+            "levels": [
+              {
+                "name": "Famille"
+              },
+              {
+                "name": "Sous famille"
+              },
+              {
+                "name": "Produit"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Site",
+        "columns": [
+          {
+            "name": "Site_PK"
+          },
+          {
+            "name": "GeographieSite_FK"
+          },
+          {
+            "name": "SiteCode"
+          },
+          {
+            "name": "Site"
+          }
+        ]
+      },
+      {
+        "name": "Temps",
+        "columns": [
+          {
+            "name": "Temps_PK"
+          },
+          {
+            "name": "Date"
+          },
+          {
+            "name": "AnneeNom"
+          },
+          {
+            "name": "Semestre année"
+          },
+          {
+            "name": "Trimestre année"
+          },
+          {
+            "name": "Mois année"
+          },
+          {
+            "name": "Année"
+          },
+          {
+            "name": "MoisCode"
+          }
+        ]
+      },
+      {
+        "name": "Facture",
+        "columns": [
+          {
+            "name": "DateFacturation_FK"
+          },
+          {
+            "name": "Site_FK"
+          },
+          {
+            "name": "Produit_FK"
+          },
+          {
+            "name": "Client_FK"
+          },
+          {
+            "name": "PrixCatalogue"
+          },
+          {
+            "name": "Remise"
+          },
+          {
+            "name": "CA"
+          },
+          {
+            "name": "Marge"
+          },
+          {
+            "name": "CoutDirectMatiere",
+            "displayFolder": "Coûts"
+          },
+          {
+            "name": "CoutDirectMainOeuvre",
+            "displayFolder": "Coûts"
+          },
+          {
+            "name": "CoutIndirect",
+            "displayFolder": "Coûts"
+          },
+          {
+            "name": "Quantite"
+          },
+          {
+            "name": "NumFacture"
+          }
+        ],
+        "measures": [
+          {
+            "name": "% marge",
+            "kpi": {}
+          },
+          {
+            "name": "% Remise"
+          },
+          {
+            "name": "Cout total",
+            "displayFolder": "Coûts"
+          },
+          {
+            "name": "Prix de vente moyen"
+          },
+          {
+            "name": "Nb lignes facture"
+          }
+        ]
+      }
+    ],
+    "perspectives": [
+      {
+        "name": "Suivi ventes"
+      }
+    ],
+    "roles": [
+      {
+        "name": "CDG",
+        "description": "Accès au service Contrôle de gestion"
+      },
+      {
+        "name": "AgenceOuest",
+        "description": "Accès aux commerciaux de l'agence Ouest"
+      }
+    ]
+  }
+},
+  "cultures": [
+    {
+  "name": "en-US",
+  "translations": {
+    "model": {
+      "name": "Model",
+      "translatedCaption": "",
+      "translatedDescription": "",
+      "tables": [
+        {
+          "name": "Client",
+          "translatedCaption": "Customer",
+          "translatedDescription": "",
+          "columns": [
+            {
+              "name": "Client_PK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "GeographieClient_FK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Code client",
+              "translatedCaption": "Customer key",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Client",
+              "translatedCaption": "Customer",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Type client",
+              "translatedCaption": "Customer type",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Segmentation client",
+              "translatedCaption": "Customer segmentation",
+              "translatedDescription": ""
+            }
+          ]
+        },
+        {
+          "name": "Geographie",
+          "translatedCaption": "",
+          "translatedDescription": "",
+          "columns": [
+            {
+              "name": "Geographie_PK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "PaysCode",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Pays",
+              "translatedCaption": "Country",
+              "translatedDescription": ""
+            },
+            {
+              "name": "DepartementCode",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Département",
+              "translatedCaption": "Department",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Code postal",
+              "translatedCaption": "Postal code",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Ville",
+              "translatedCaption": "City",
+              "translatedDescription": ""
+            }
+          ],
+          "hierarchies": [
+            {
+              "name": "Localisation",
+              "translatedCaption": "Location",
+              "translatedDescription": "",
+              "levels": [
+                {
+                  "name": "Pays",
+                  "translatedCaption": "Country",
+                  "translatedDescription": ""
+                },
+                {
+                  "name": "Département",
+                  "translatedCaption": "Department",
+                  "translatedDescription": ""
+                },
+                {
+                  "name": "Ville",
+                  "translatedCaption": "City",
+                  "translatedDescription": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Produit",
+          "translatedCaption": "Product",
+          "translatedDescription": "",
+          "columns": [
+            {
+              "name": "Produit_PK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Code produit",
+              "translatedCaption": "Product key",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Produit",
+              "translatedCaption": "Product",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Sous famille",
+              "translatedCaption": "SubFamily",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Famille",
+              "translatedCaption": "Family",
+              "translatedDescription": ""
+            }
+          ],
+          "hierarchies": [
+            {
+              "name": "Produits",
+              "translatedCaption": "Products",
+              "translatedDescription": "",
+              "levels": [
+                {
+                  "name": "Famille",
+                  "translatedCaption": "Family",
+                  "translatedDescription": ""
+                },
+                {
+                  "name": "Sous famille",
+                  "translatedCaption": "SubFamily",
+                  "translatedDescription": ""
+                },
+                {
+                  "name": "Produit",
+                  "translatedCaption": "Product",
+                  "translatedDescription": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Site",
+          "translatedCaption": "",
+          "translatedDescription": "",
+          "columns": [
+            {
+              "name": "Site_PK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "GeographieSite_FK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "SiteCode",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Site",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            }
+          ]
+        },
+        {
+          "name": "Temps",
+          "translatedCaption": "Time",
+          "translatedDescription": "",
+          "columns": [
+            {
+              "name": "Temps_PK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Date",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "AnneeNom",
+              "translatedCaption": "YearName",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Semestre année",
+              "translatedCaption": "Semester year",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Trimestre année",
+              "translatedCaption": "Quarter year",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Mois année",
+              "translatedCaption": "Month year",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Année",
+              "translatedCaption": "Year",
+              "translatedDescription": ""
+            },
+            {
+              "name": "MoisCode",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            }
+          ]
+        },
+        {
+          "name": "Facture",
+          "translatedCaption": "Invoice",
+          "translatedDescription": "",
+          "columns": [
+            {
+              "name": "DateFacturation_FK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Site_FK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Produit_FK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Client_FK",
+              "translatedCaption": "",
+              "translatedDescription": ""
+            },
+            {
+              "name": "PrixCatalogue",
+              "translatedCaption": "Price catalogue",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Remise",
+              "translatedCaption": "Discount",
+              "translatedDescription": ""
+            },
+            {
+              "name": "CA",
+              "translatedCaption": "Turnover",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Marge",
+              "translatedCaption": "Margin",
+              "translatedDescription": ""
+            },
+            {
+              "name": "CoutDirectMatiere",
+              "translatedCaption": "Direct material cost",
+              "translatedDescription": "",
+              "translatedDisplayFolder": "Cost"
+            },
+            {
+              "name": "CoutDirectMainOeuvre",
+              "translatedCaption": "Direct labor cost",
+              "translatedDescription": "",
+              "translatedDisplayFolder": "Cost"
+            },
+            {
+              "name": "CoutIndirect",
+              "translatedCaption": "Indirect cost",
+              "translatedDescription": "",
+              "translatedDisplayFolder": "Cost"
+            },
+            {
+              "name": "Quantite",
+              "translatedCaption": "Quantity",
+              "translatedDescription": ""
+            },
+            {
+              "name": "NumFacture",
+              "translatedCaption": "Invoice number",
+              "translatedDescription": ""
+            }
+          ],
+          "measures": [
+            {
+              "name": "% marge",
+              "translatedCaption": "% margin",
+              "kpi": {
+                "translatedDescription": ""
+              }
+            },
+            {
+              "name": "% Remise",
+              "translatedCaption": "% discount",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Cout total",
+              "translatedCaption": "Total cost",
+              "translatedDescription": "",
+              "translatedDisplayFolder": ""
+            },
+            {
+              "name": "Prix de vente moyen",
+              "translatedCaption": "Average sale price",
+              "translatedDescription": ""
+            },
+            {
+              "name": "Nb lignes facture",
+              "translatedCaption": "Invoice line count",
+              "translatedDescription": ""
+            }
+          ]
+        }
+      ],
+      "perspectives": [
+        {
+          "name": "Suivi ventes",
+          "translatedCaption": "Sales tracking",
+          "translatedDescription": ""
+        }
+      ]
+    }
+  }
+}
+  ]
+}
